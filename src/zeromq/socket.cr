@@ -106,6 +106,7 @@ module ZMQ
       loop do
         rc = LibZMQ.msg_send(message.address, @socket, flags | ZMQ::DONTWAIT)
         if rc == -1
+          sleep(0.1)
           if Util.errno == Errno::EAGAIN
             wait_writable
           else
@@ -137,6 +138,7 @@ module ZMQ
         message = @message_type.new
         rc = LibZMQ.msg_recv(message.address, @socket, flags | ZMQ::DONTWAIT)
         if rc == -1
+            sleep(0.1)
             if Util.errno == Errno::EAGAIN
               wait_readable
             else
